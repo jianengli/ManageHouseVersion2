@@ -1,0 +1,59 @@
+﻿@page
+@model ManageHouse.Pages.House.AddModel
+@{
+    ViewData["Title"] = "Add New House Page";
+}
+
+
+
+    <div class="modal-content addpage-bg" style="margin-top: 50px;">
+            <div class="modal-header">
+                <h3 class="modal-title"><strong>Add New House Here!</strong></h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 item_content">
+                        <form method="post">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="panel">
+                                            <div class="panel-body">
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <label asp-for="house.Id" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="house.Id" />
+                                                    <span class="alert-danger" asp-validation-for="house.Id"></span>
+                                                </div>
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <label asp-for="house.Name" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="house.Name" />
+                                                    <span class="alert-danger" asp-validation-for="house.Name"></span>
+                                                </div>
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <label asp-for="house.Owner" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="house.Owner" />
+                                                    <span class="alert-danger" asp-validation-for="house.Owner"></span>
+                                                </div>
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <label asp-for="house.Description" style="font-weight:bold;"></label>
+                                                    <textarea type='text' class='form-control' style="width: 500px; height:100px;" asp-for="house.Description"></textarea>
+                                                    <span class="alert-danger" asp-validation-for="house.Description"></span>
+                                                </div>
+
+                                                <div class="col-md-12" style="margin-top:15px;">
+                                                    <button class="AddPage-btn" type="submit"><i class="glyphicon glyphicon-plus"></i> Add House</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+

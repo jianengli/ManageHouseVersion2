@@ -1,0 +1,109 @@
+﻿@page
+@model ManageHouse.Pages.House.IndexModel
+@{
+    ViewData["Title"] = "House page";
+}
+
+<script>
+    function myFunction(x) {
+        $("#item_view").modal();
+    };
+    $(document).ready(function () {
+        $("#success-alert").hide();
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+    });
+
+</script>
+
+
+    <div class="container" style="background: #f1f1f2; height: auto; margin-top: 50px;">
+        <div class="mail-box">
+            <aside class="lg-side">
+
+                <div class="houselist">
+                    <label class="houselist-txt">House List</label>
+                </div>
+
+                <br />
+                @{
+                    if (!string.IsNullOrEmpty(Model.Message))
+                    {
+                        <div class="alert alert-success" id="success-alert" style="margin-top: 40px;">
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                            <strong>@Model.Message ! </strong>
+                        </div>
+                    }
+                }
+
+                <div class="search-box">
+                    <label class="lb-entity">
+                        Show &nbsp
+                        <select id="pageSize">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                        </select>
+                        &nbsp objects
+                    </label>
+                    <input class="input-search" name="key" type="text" id="key" onkeydown="onSearch(this)" value="" />
+                    <label class="lb-search">Search:</label>
+                </div>
+
+                <div class="inbox-body">
+
+                    <div class="mail-option">
+                        <table class="table table-inbox table-hover" id="tableSort" style="border:2px solid #51545d;">
+                            <thead>
+                                <tr class="unread">
+                                    <th class="house-title1 th-head">ID</th>
+                                    <th class="house-title1 th-head">NAME</th>
+                                    <th class="house-title1 th-head">OWNER</th>
+                                    <th class="house-title2 th-head">DESCRIPTION</th>
+                                    <th class="house-title1">OPERATION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.houseList)
+                                {
+                                    <tr>
+                                        <td onclick="myFunction(this)" class="view-message  dont-show"><h5>@item.Id</h5></td>
+                                        <td onclick="myFunction(this)" class="view-message"><h5>@item.Name</h5></td>
+                                        <td onclick="myFunction(this)" class="view-message"><h5>@item.Owner</h5></td>
+                                        <td onclick="myFunction(this)" class="view-message  text-left"><h5>@item.Description</h5></td>
+                                        <td>
+                                            <form method="post">
+                                                <span class="btn-group pull-right">
+                                                    <a class="btn-edit" asp-page="/House/Edit" asp-route-id="@item.Id" style="text-decoration: none; color: white; text-align: center;">
+                                                        <i class="glyphicon glyphicon-edit"></i>Edit
+                                                    </a>
+                                                    <button type="submit" class="btn-del" asp-page-handler="Delete" asp-route-id="@item.Id"
+                                                            onclick="return confirm('Are you sure to delete this house?');">
+                                                        <i class="glyphicon glyphicon-remove"></i>Delete
+                                                    </button>
+                                                </span>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pages-box">
+                    <label class="lb-page" id="btn0"></label>
+                    <label class="lb-page" id="sjzl"></label>
+                    <button class="btn-page" id="btn4">Last</button>
+                    <button class="btn-page" id="btn3">Next</button>
+                    <button class="btn-page" id="btn2">Previous</button>
+                    <button class="btn-page" id="btn1">First</button>
+                    <label class="lb-page">Go to page</label>
+                    <input id="changePage" type="text" size="1" maxlength="4" />
+                    <button class="btn-page-go" id="btn5">Go</button>
+                </div>
+
+            </aside>
+        </div>
+    </div>
