@@ -27,6 +27,9 @@ namespace ManageHouse
             services.AddRazorPages();
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddTransient<IHouseRepository, HouseRepository>();
+            services.AddTransient<IStageRepository, StageRepository>();
+            services.AddTransient<IImageRepository, ImageRepository>();
+
             services.AddMvc().AddRazorPagesOptions(options => {
                     options.Conventions.AddPageRoute("/Home", "");
             });

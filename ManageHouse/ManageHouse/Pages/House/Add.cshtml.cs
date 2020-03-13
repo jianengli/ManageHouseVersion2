@@ -1,28 +1,42 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ManageHouse.Repository;
+using ManageHouse.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using System;
 
 namespace ManageHouse.Pages.House
 {
     public class AddModel : PageModel
     {
+        #region Fields
+
         IHouseRepository _houseRepository;
-        public AddModel(IHouseRepository houseRepository)
+        IImageRepository _imageRepository;
+        IStageRepository _stageRepository;
+
+        #endregion
+
+        #region Constructor
+
+        public AddModel(IHouseRepository houseRepository, IStageRepository stageRepository, IImageRepository imageRepository)
         {
             _houseRepository = houseRepository;
+            _imageRepository = imageRepository;
+            _stageRepository = stageRepository;
         }
 
+        #endregion
+
+        #region Properties
+
         [BindProperty]
-        public Entity.House house { get; set; }
+        public HouseViewModel House { get; set; }
 
         [TempData]
         public string Message { get; set; }
+        
+        #endregion
+
         public IActionResult OnGet()
         {
             return Page();
@@ -31,56 +45,20 @@ namespace ManageHouse.Pages.House
         {
             if (ModelState.IsValid)
             {
-                var count = _houseRepository.Add(house);
-                string containerName = house.Name.Trim();
-
-                CloudStorageAccount account = CloudStorageAccount.Parse(Constants.BlobKey);
-                var blobClient = account.CreateCloudBlobClient();
-                CreateSampleContainerAsync(blobClient, containerName);
-
-                if (count > 0)
+                var house = new Models.House
                 {
-                    Message = "New House Added Successfully !";
-                    return RedirectToPage("/House/HouseList");
-                }
+                    Id = Guid.NewGuid(),
+                    Object = this.House.Object,
+                    ObjectDescription = this.House.ObjectDescription,
+                    Longitude = this.House.Longitude,
+                    Latitude = this.House.Latitude
+                };
+
+                _houseRepository.Create(house);
+                return RedirectToPage("/House/HouseList");
             }
 
             return Page();
-        }
-
-        private static async Task<CloudBlobContainer> CreateSampleContainerAsync(CloudBlobClient blobClient, String containerName)
-        {
-
-            CloudBlobContainer container = blobClient.GetContainerReference(containerName);
-
-            try
-            {
-                // Create the container if it does not already exist.
-                bool result = await container.CreateIfNotExistsAsync();
-                SetPublicContainerPermissions(container);
-                if (result == true)
-                {
-                    Console.WriteLine("Created container {0}", container.Name);
-                }
-            }
-            catch (StorageException e)
-            {
-                Console.WriteLine("HTTP error code {0}: {1}",
-                                    e.RequestInformation.HttpStatusCode,
-                                    e.RequestInformation.ErrorCode);
-                Console.WriteLine(e.Message);
-            }
-
-            return container;
-        }
-
-        private static async Task SetPublicContainerPermissions(CloudBlobContainer container)
-        {
-            BlobContainerPermissions permissions = await container.GetPermissionsAsync();
-            permissions.PublicAccess = BlobContainerPublicAccessType.Container;
-            await container.SetPermissionsAsync(permissions);
-
-            Console.WriteLine("Container {0} - permissions set to {1}", container.Name, permissions.PublicAccess);
         }
     }
 }

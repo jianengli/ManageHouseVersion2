@@ -3,9 +3,6 @@
 @{
     ViewData["Title"] = "House Edit Page";
 }
-<script>
-
-</script>
 <div>
     <div>
         <div class="modal-content">
@@ -16,27 +13,29 @@
                 <div class="row">
                     <form method="post" class="house-form">
                         <div class="col-md-12" style="margin-top:15px;">
-                            <input asp-for="house.Id" type="hidden" />
-                            <label asp-for="house.Id" style="font-weight:bold;"></label>
-                            <input type='text' class='form-control' asp-for="house.Id" style="width:350px;" />
-                            <span class="alert-danger" asp-validation-for="house.Id"></span>
+                            <label asp-for="House.Object" style="font-weight:bold;"></label>
+                            <input type='text' class='form-control' asp-for="House.Object" style="width:350px;" />
+                            <span class="alert-danger" asp-validation-for="House.Object"></span>
                         </div>
+
                         <div class="col-md-12" style="margin-top:15px;">
-                            <input asp-for="house.Id" type="hidden" />
-                            <label asp-for="house.Name" style="font-weight:bold;"></label>
-                            <input type='text' class='form-control' asp-for="house.Name" style="width:350px;" />
-                            <span class="alert-danger" asp-validation-for="house.Name"></span>
+                            <label asp-for="House.ObjectDescription" style="font-weight:bold;"></label>
+                            <input type='text' class='form-control' asp-for="House.ObjectDescription" style="width:350px;" />
+                            <span class="alert-danger" asp-validation-for="House.ObjectDescription"></span>
                         </div>
+
                         <div class="col-md-12" style="margin-top:15px;">
-                            <label asp-for="house.Owner" style="font-weight:bold;"></label>
-                            <input type='text' class='form-control' asp-for="house.Owner" style="width:350px;" />
-                            <span class="alert-danger" asp-validation-for="house.Owner"></span>
+                            <label asp-for="House.Longitude" style="font-weight:bold;"></label>
+                            <textarea type='text' class='form-control' asp-for="House.Longitude" style="width:350px; height: 200px;"></textarea>
+                            <span class="alert-danger" asp-validation-for="House.Longitude"></span>
                         </div>
+
                         <div class="col-md-12" style="margin-top:15px;">
-                            <label asp-for="house.Description" style="font-weight:bold;"></label>
-                            <textarea type='text' class='form-control' asp-for="house.Description" style="width:350px; height: 200px;"></textarea>
-                            <span class="alert-danger" asp-validation-for="house.Description"></span>
+                            <label asp-for="House.Latitude" style="font-weight:bold;"></label>
+                            <textarea type='text' class='form-control' asp-for="House.Latitude" style="width:350px; height: 200px;"></textarea>
+                            <span class="alert-danger" asp-validation-for="House.Latitude"></span>
                         </div>
+
                         <div class="text-center col-md-12 btn-box">
                             <button class="btn btn-primary btn-sx" type="submit">
                                 <i class="glyphicon glyphicon-edit"></i> Edit House
@@ -48,34 +47,32 @@
                         <div class="stage-box">
                             <table class="table table-inbox table-hover" id="tableSort" style="border:2px solid #51545d;">
                                 <tbody>
-                                    @foreach (int item in Model.stageList)
+                                    @foreach (var item in Model.StageList)
                                     {
                                         <tr>
-                                            <td onclick="myFunction(this)" class="view-message  dont-show"><h5>Stage @item</h5></td>
+                                            <td onclick="myFunction(this)" class="view-message  dont-show"><h5>@item.StageName</h5></td>
                                             <td>
                                                 <form method="post">
                                                     <span class="btn-group pull-right">
-                                                        <button type="submit" class="btn-del" asp-page-handler="Manage" asp-route-stagenumber="@item" asp-route-id="@Model.house.Id">
+                                                        <button type="submit" class="btn-del" asp-page-handler="Manage" asp-route-stagenumber="@item.StageName" asp-route-id="@Model.House.Object">
                                                             <i class="glyphicon glyphicon-remove"></i>Manage Pictures
                                                         </button>
                                                     </span>
                                                 </form>
                                             </td>
                                         </tr>
-
                                     }
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="pic-box">
-                            <ul class="gallery">
-                                @foreach (Uri item in Model.imageList)
-                                {
-                                    <li class="image_li"><input type="checkbox" class="check_box" /><img src="@item" style="width:100%; height: 100%;" /></li>
-                                }
-                            </ul>
-                            <button class="btn btn-primary btn-sx btn-delPic">Delete Image</button>
+                            @foreach (var item in Model.ImageList)
+                            {
+                                <img src="@item.URI" class="img-thumbnail" /> <button class="btn btn-primary btn-sx btn-delPic">Delete Image</button>
+                            }
+
+
                         </div>
                     </div>
                 </div>

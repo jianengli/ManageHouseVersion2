@@ -3,12 +3,9 @@
 @{
     ViewData["Title"] = "Add New House Page";
 }
-
-
-
     <div class="modal-content addpage-bg" style="margin-top: 50px;">
             <div class="modal-header">
-                <h3 class="modal-title"><strong>Add New House Here!</strong></h3>
+                <h3 class="modal-title"><strong>Add New House</strong></h3>
             </div>
 
             <div class="modal-body">
@@ -21,24 +18,22 @@
                                         <div class="panel">
                                             <div class="panel-body">
                                                 <div class="col-md-12" style="margin-top:15px;">
-                                                    <label asp-for="house.Id" style="font-weight:bold;"></label>
-                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="house.Id" />
-                                                    <span class="alert-danger" asp-validation-for="house.Id"></span>
+                                                    <label asp-for="House.Object" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="House.Object" />
+                                                    <span class="alert-danger" asp-validation-for="House.Object"></span>
                                                 </div>
                                                 <div class="col-md-12" style="margin-top:15px;">
-                                                    <label asp-for="house.Name" style="font-weight:bold;"></label>
-                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="house.Name" />
-                                                    <span class="alert-danger" asp-validation-for="house.Name"></span>
+                                                    <label asp-for="House.ObjectDescription" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="House.ObjectDescription" />
+                                                    <span class="alert-danger" asp-validation-for="House.ObjectDescription"></span>
                                                 </div>
                                                 <div class="col-md-12" style="margin-top:15px;">
-                                                    <label asp-for="house.Owner" style="font-weight:bold;"></label>
-                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="house.Owner" />
-                                                    <span class="alert-danger" asp-validation-for="house.Owner"></span>
+                                                    <label asp-for="House.Longitude" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="House.Longitude" />
                                                 </div>
                                                 <div class="col-md-12" style="margin-top:15px;">
-                                                    <label asp-for="house.Description" style="font-weight:bold;"></label>
-                                                    <textarea type='text' class='form-control' style="width: 500px; height:100px;" asp-for="house.Description"></textarea>
-                                                    <span class="alert-danger" asp-validation-for="house.Description"></span>
+                                                    <label asp-for="House.Latitude" style="font-weight:bold;"></label>
+                                                    <input type='text' class='form-control' style="width: 500px;" asp-for="House.Latitude" />
                                                 </div>
 
                                                 <div class="col-md-12" style="margin-top:15px;">
