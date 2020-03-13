@@ -5,6 +5,13 @@ VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManageHouse", "ManageHouse\ManageHouse.csproj", "{B08E14ED-2467-4144-B9E6-54E81BA431C7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{B4E048E6-0155-4743-9AB6-19685CB9D34B}"
+	ProjectSection(SolutionItems) = preProject
+		Houses.sql = Houses.sql
+		Images.sql = Images.sql
+		Stages.sql = Stages.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

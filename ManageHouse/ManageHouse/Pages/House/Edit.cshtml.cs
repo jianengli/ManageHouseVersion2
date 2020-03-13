@@ -1,70 +1,92 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using ManageHouse.Models;
 using ManageHouse.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System.Net.Http;
 
 namespace ManageHouse.Pages.House
 {
     public class EditModel : PageModel
     {
+        #region Fields
+
         IHouseRepository _houseRepository;
-        public List<int> stageList { get; set; }
-        public List<Uri> imageList;
-        //public List<List<Uri>> urlList = new List<List<Uri>>();
-        public EditModel(IHouseRepository houseRepository)
+        IImageRepository _imageRepository;
+        IStageRepository _stageRepository;
+
+        #endregion
+
+        #region Constructor
+
+        public EditModel(IHouseRepository houseRepository, IStageRepository stageRepository, IImageRepository imageRepository)
         {
             _houseRepository = houseRepository;
-            imageList = new List<Uri>();
+            _imageRepository = imageRepository;
+            _stageRepository = stageRepository;
         }
 
-        [BindProperty]
-        public Entity.House house { get; set; }
+        #endregion
 
-        public void OnGet(int id)
+        #region Properties
+
+        [BindProperty]
+        public ViewModels.HouseViewModel House { get; set; }
+
+        [BindProperty]
+        public Stage Stage { get; set; }
+
+        public List<Stage> StageList { get; set; }
+
+        public List<Image> ImageList { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        public void OnGet(string id)
         {
- 
-            house = _houseRepository.GetHouse(id);
-            stageList = _houseRepository.GetStage(house);
+
+
+            // Fetch selected house
+            var house = _houseRepository.Read(id);
+
+            this.House = new ViewModels.HouseViewModel(house);
+            this.StageList = _stageRepository.List(house);
+            
+            if (StageList.Any())
+            {
+                this.Stage = StageList.First();
+                this.ImageList = _imageRepository.List(this.House.Object, this.Stage.StageName);
+            }
+            else
+            {
+                this.ImageList = new List<Image>();
+            }
+
+        }
+
+        public void OnPostManage(string stagenumber, string id)
+        {
+            var house = _houseRepository.Read(id);
+
+            this.House = new ViewModels.HouseViewModel(house);
+            this.StageList = _stageRepository.List(house);
+
+            this.ImageList = _imageRepository.List(id, stagenumber);
+        }
+
+        public void OnSelect(Guid id)
+        {
+            this.Stage = StageList.Single(stage => stage.Id == id);
         }
         
         public IActionResult OnPost()
         {
-            var data = house;
-            if (ModelState.IsValid)
-            {
-                var count = _houseRepository.Update(data);
-                if (count > 0)
-                {
-                    return RedirectToPage("/House/HouseList");
-                }
-            }
             return Page();
         }
-
-        public IActionResult OnPostManage(int stagenumber,int id)
-        {
-            //System.Diagnostics.Debug.WriteLine($"xxxxxxxxxxxx");
-            house = _houseRepository.GetHouse(id);
-            //OnGet(id);
-            CloudStorageAccount account = CloudStorageAccount.Parse(Constants.BlobKey);
-                var blobClient = account.CreateCloudBlobClient();
-                var imageContainer = blobClient.GetContainerReference(house.Name.Trim());
-                var result = imageContainer.ListBlobsSegmentedAsync("", true, BlobListingDetails.None, 500, null, null, null).GetAwaiter().GetResult();
-                var list = result.Results.Where(r => (r.Uri.ToString().Contains(".jpg") && r.Uri.ToString().Contains("stage" + stagenumber)) || (r.Uri.ToString().Contains(".png") && r.Uri.ToString().Contains("stage" + stagenumber))).ToList();
-                foreach (var item in list)
-                {
-                System.Diagnostics.Debug.WriteLine($"Downloading {item.Uri}");
-                    //var data = client.GetByteArrayAsync(item.Uri).GetAwaiter().GetResult();
-                    imageList.Add(item.Uri);
-                }
-            return Page();
-        }
-
+        
+        #endregion
     }
 }

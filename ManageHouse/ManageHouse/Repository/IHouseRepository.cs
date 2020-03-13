@@ -1,24 +1,189 @@
-using ManageHouse.Entity;
+using Dapper;
+using ManageHouse.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.SqlServer.Types;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace ManageHouse.Repository
 {
 
     public interface IHouseRepository 
     {
-        int Add(House house); 
+        void Create(House house);
 
-        List<House> GetList();  // NOTE: (kbg) Would have just named it list
+        House Read(Guid id);
 
-        House GetHouse(int id); // NOTE: (kbg) Would have just named it Get or Fetch
+        House Read(string objectId);
+        
+        void Update(House house);
 
-        int Update(House house); 
+        void Delete(House house);
 
-        int Delete(int id); 
-
-        List<int> GetStage(House house); 
+        List<House> List();  
     }
+
+    public class HouseRepository : IHouseRepository
+    {
+        private ILogger<HouseRepository> _logger;
+        private IConfiguration _configuration;
+        private string _connection; // Connectionstring
+
+        public HouseRepository(IConfiguration configuration, ILogger<HouseRepository> logger)
+        {
+            _logger = logger;
+            _configuration = configuration;
+            _connection = _configuration.GetSection("ConnectionStrings").GetSection("HouseContext").Value;
+        }
+
+        public void Create(House house)
+        {
+            using (var con = new SqlConnection(_connection))
+            {
+                try
+                {
+                    con.Open();
+                    var query = @"INSERT INTO[dbo].[Houses]
+                                    ([Id],[Longitude],[Latitude],[Object],[ObjectDescription])
+                                   VALUES (@Id, @Longitude, @Latitude, @Object, @ObjectDescription)";
+
+                    con.Execute(query, house);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Error inserting image", ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void Delete(House house)
+        {
+            using (var con = new SqlConnection(_connection))
+            {
+                try
+                {
+                    con.Open();
+                    var query = @"UPDATE [dbo].[Houses] SET [Deleted] = @Deleted WHERE [Id] = @Id";
+
+                    con.Execute(query, house);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Error inserting image", ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public List<House> List()
+        {
+            var houses = new List<House>();
+
+            using (var con = new SqlConnection(_connection))
+            {
+                try
+                {
+                    con.Open();
+                    var query = @" SELECT TOP (1000) * FROM [dbo].[Houses]";
+
+                    var found = con.Query<House>(query);
+
+                    houses.AddRange(found);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Error listing images", ex);
+                    throw ex;
+                }
+            }
+
+            return houses;
+        }
+
+        public House Read(Guid id)
+        {
+            House house;
+
+            using (var con = new SqlConnection(_connection))
+            {
+                try
+                {
+                    con.Open();
+                    var query = @" SELECT TOP (1000) * FROM [dbo].[Houses] WHERE Id = @Id";
+
+                    house = con.QuerySingle<House>(query, new { Id = id }); 
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Error listing images", ex);
+                    throw ex;
+                }
+            }
+
+            if (house == null)
+            {
+                throw new Exception("Unable to fetch house");
+            }
+
+            return house;
+        }
+
+        public House Read(string objectId)
+        {
+            House house;
+
+            using (var con = new SqlConnection(_connection))
+            {
+                try
+                {
+                    con.Open();
+                    var query = @" SELECT TOP (1000) * FROM [dbo].[Houses] WHERE Object = @Id";
+
+                    house = con.QuerySingle<House>(query, new { Id = objectId });
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Error listing images", ex);
+                    throw ex;
+                }
+            }
+
+            if (house == null)
+            {
+                throw new Exception("Unable to fetch house");
+            }
+
+            return house;
+        }
+
+        public void Update(House house)
+        {
+            using (var con = new SqlConnection(_connection))
+            {
+                try
+                {
+                    con.Open();
+                    var query = @"UPDATE [dbo].[Houses]
+                                    SET 
+                                       [Latitude] = @Latitiude,
+                                       [Longitude] = @Longitude,
+                                       [Object] = @Object,
+                                       [ObjectDescription] = @ObjectDescription
+                                    WHERE Id = @Id";
+
+                    con.Execute(query, house);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Error inserting image", ex);
+                    throw ex;
+                }
+            }
+        }
+    }
+
 }
