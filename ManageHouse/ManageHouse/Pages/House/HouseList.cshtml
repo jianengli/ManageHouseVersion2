@@ -44,7 +44,7 @@
                                     <span class="btn-group pull-right">
                                         <a class="btn-info" href="https://www.google.com/maps/search/?api=1&query=@item.Latitude,@item.Longitude"><i class="glyphicon glyphicon-screenshot"></i>Map</a>
                                         <a class="btn-edit" asp-page="/House/Edit" asp-route-id="@item.Object"><i class="glyphicon glyphicon-edit"></i>Edit</a>
-                                        <button type="submit" class="btn-del" asp-page-handler="Delete" asp-route-id="@item.Object" nclick="return confirm('Are you sure to delete this house?');">
+                                        <button type="submit" class="btn-del" asp-page-handler="Delete" asp-route-id="@item.Object" Onclick="return confirm('Are you sure to delete this house?');">
                                             <i class="glyphicon glyphicon-remove"></i>Delete
                                         </button>
                                     </span>
