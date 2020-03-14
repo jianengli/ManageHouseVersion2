@@ -101,6 +101,19 @@ namespace ManageHouse.Pages.House
         {
             this.Stage = StageList.Single(stage => stage.Id == id);
         }
+
+        public IActionResult OnPostEdit()
+        {
+            var house = _houseRepository.Read(this.House.Object);
+
+            house.Latitude = this.House.Latitude;
+            house.Longitude = this.House.Longitude;
+            house.ObjectDescription = this.House.ObjectDescription;
+
+            _houseRepository.Update(house);
+
+            return RedirectToPage("/House/HouseList");
+        }
         
         public IActionResult OnPost()
         {
