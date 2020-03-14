@@ -25,20 +25,20 @@
                         </div>
 
                         <div class="col-md-12" style="margin-top:15px;">
-                            <label asp-for="House.Longitude" style="font-weight:bold;"></label>
-                            <textarea type='text' class='form-control' asp-for="House.Longitude" style="width:350px; height: 200px;"></textarea>
-                            <span class="alert-danger" asp-validation-for="House.Longitude"></span>
-                        </div>
-
-                        <div class="col-md-12" style="margin-top:15px;">
                             <label asp-for="House.Latitude" style="font-weight:bold;"></label>
                             <textarea type='text' class='form-control' asp-for="House.Latitude" style="width:350px; height: 200px;"></textarea>
                             <span class="alert-danger" asp-validation-for="House.Latitude"></span>
                         </div>
 
+                        <div class="col-md-12" style="margin-top:15px;">
+                            <label asp-for="House.Longitude" style="font-weight:bold;"></label>
+                            <textarea type='text' class='form-control' asp-for="House.Longitude" style="width:350px; height: 200px;"></textarea>
+                            <span class="alert-danger" asp-validation-for="House.Longitude"></span>
+                        </div>
+
                         <div class="text-center col-md-12 btn-box">
-                            <button class="btn btn-primary btn-sx" type="submit">
-                                <i class="glyphicon glyphicon-edit"></i> Edit House
+                            <button class="btn btn-primary btn-sx" type="submit" asp-page-handler="Edit">
+                                <i class="glyphicon glyphicon-edit"></i>Save
                             </button>
                             <a class="btn btn-primary btn-sx" asp-page="/House/HouseList" style="margin-left:20px;"><i class="glyphicon glyphicon-backward"></i>House List</a>
                         </div>
@@ -74,8 +74,6 @@
                                     <button type="submit" class="btn btn-primary btn-sx btn-delPic" asp-page-handler="Delete" asp-route-id="@Model.House.Object" asp-route-imageid="@item.Id">Delete Image</button>
                                 </form>
                             }
-
-
                         </div>
                     </div>
                 </div>

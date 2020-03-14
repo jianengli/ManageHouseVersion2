@@ -171,7 +171,7 @@ namespace ManageHouse.Repository
                     con.Open();
                     var query = @"UPDATE [dbo].[Houses]
                                     SET 
-                                       [Latitude] = @Latitiude,
+                                       [Latitude] = @Latitude,
                                        [Longitude] = @Longitude,
                                        [Object] = @Object,
                                        [ObjectDescription] = @ObjectDescription
