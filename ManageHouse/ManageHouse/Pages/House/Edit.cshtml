@@ -69,7 +69,10 @@
                         <div class="pic-box">
                             @foreach (var item in Model.ImageList)
                             {
-                                <img src="@item.URI" class="img-thumbnail" /> <button class="btn btn-primary btn-sx btn-delPic">Delete Image</button>
+                                <img src="@item.URI" class="img-thumbnail" /> 
+                                <form method="post">
+                                    <button type="submit" class="btn btn-primary btn-sx btn-delPic" asp-page-handler="Delete" asp-route-id="@Model.House.Object" asp-route-imageid="@item.Id">Delete Image</button>
+                                </form>
                             }
 
 

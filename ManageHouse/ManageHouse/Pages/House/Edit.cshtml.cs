@@ -77,6 +77,26 @@ namespace ManageHouse.Pages.House
             this.ImageList = _imageRepository.List(id, stagenumber);
         }
 
+        public void OnPostDelete(string id, string imageid)
+        {
+            this._imageRepository.Delete(new Image { Id = new Guid(imageid) });
+          
+            var house = _houseRepository.Read(id);
+
+            this.House = new ViewModels.HouseViewModel(house);
+            this.StageList = _stageRepository.List(house);
+
+            if (StageList.Any())
+            {
+                this.Stage = StageList.First();
+                this.ImageList = _imageRepository.List(this.House.Object, this.Stage.StageName);
+            }
+            else
+            {
+                this.ImageList = new List<Image>();
+            }
+        }
+
         public void OnSelect(Guid id)
         {
             this.Stage = StageList.Single(stage => stage.Id == id);

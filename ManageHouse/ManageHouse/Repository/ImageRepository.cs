@@ -73,7 +73,7 @@ namespace ManageHouse.Repository
                                     FROM
                                     [dbo].[Stages] INNER JOIN Images on Stages.ImageId = Images.Id
                                                    INNER JOIN Houses on Stages.HouseId = Houses.Id
-                                    WHERE Stages.Stage = @Stage AND[Houses].[Object] = @ObjectId";
+                                    WHERE Stages.Stage = @Stage AND [Houses].[Object] = @ObjectId AND Images.Deleted IS NULL";
                     
                     imageList.AddRange(con.Query<Image>(query, new { Stage = stageId, ObjectId = objectId }));
                 }
