@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{B4
 		Stages.sql = Stages.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManageHouse.Client", "ManageHouse.Client\ManageHouse.Client.csproj", "{0B03B992-191B-4EEF-9DE5-A46113D5F9D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{B08E14ED-2467-4144-B9E6-54E81BA431C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B08E14ED-2467-4144-B9E6-54E81BA431C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B08E14ED-2467-4144-B9E6-54E81BA431C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B03B992-191B-4EEF-9DE5-A46113D5F9D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B03B992-191B-4EEF-9DE5-A46113D5F9D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B03B992-191B-4EEF-9DE5-A46113D5F9D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B03B992-191B-4EEF-9DE5-A46113D5F9D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

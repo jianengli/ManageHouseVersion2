@@ -49,16 +49,22 @@ namespace ManageHouse
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // Disable untill later
+            // app.UseHttpsRedirection();
+            // app.UseAuthorization();
+           
+            
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                  name: "default",
+                  pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                  endpoints.MapRazorPages();
             });
         }
     }
