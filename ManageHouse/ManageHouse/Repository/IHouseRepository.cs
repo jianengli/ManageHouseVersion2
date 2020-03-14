@@ -62,6 +62,8 @@ namespace ManageHouse.Repository
 
         public void Delete(House house)
         {
+            house.Deleted = DateTime.Now;
+
             using (var con = new SqlConnection(_connection))
             {
                 try
@@ -88,7 +90,7 @@ namespace ManageHouse.Repository
                 try
                 {
                     con.Open();
-                    var query = @" SELECT TOP (1000) * FROM [dbo].[Houses]";
+                    var query = @" SELECT TOP (1000) * FROM [dbo].[Houses] WHERE Deleted IS NULL";
 
                     var found = con.Query<House>(query);
 

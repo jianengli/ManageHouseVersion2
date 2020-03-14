@@ -47,6 +47,13 @@ namespace ManageHouse.Pages.House
 
         #region Methods
 
+        public void OnPostDelete(string id)
+        {
+            var house = _houseRepository.Read(id);
+            _houseRepository.Delete(house);
+            this.Houses = _houseRepository.List().Select(n => new ViewModels.HouseViewModel(n)).ToList();
+        }
+
         public void OnGet()
         {
             this.Houses = _houseRepository.List().Select(n => new ViewModels.HouseViewModel(n)).ToList();
