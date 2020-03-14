@@ -167,9 +167,19 @@ body {
     height: 35px;
 }
 
+.btn-info {
+    width: 60px;
+    display: inline-block;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    margin-right: 10px;
+}
+
 .btn-del {
     background: #78828d;
     color: white;
+    border: none;
 }
 
 .btn-del:hover {
@@ -180,13 +190,16 @@ body {
     background: #7c5e77;
     color: white;
     margin-right: 10px;
-    width: 40px;
+    width: 60px;
+    display: inline-block;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
 }
-
-a {}
 
 .btn-edit:hover {
     background:rgba(124,94,119,0.8);
+    color: white;
 }
 
 .lb-entity {

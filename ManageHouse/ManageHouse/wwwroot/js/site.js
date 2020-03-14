@@ -90,11 +90,10 @@ function onSearch(obj) {
         var rowsLength = storeId.rows.length;
         var key = obj.value.toLowerCase();
         for (var i = 1; i < rowsLength; i++) {
-            var searchText1 = storeId.rows[i].cells[0].innerHTML;
+            var searchText1 = storeId.rows[i].cells[0].innerHTML.toLowerCase();
             var searchText2 = storeId.rows[i].cells[1].innerHTML.toLowerCase();
-            var searchText3 = storeId.rows[i].cells[2].innerHTML.toLowerCase();
-            var searchText4 = storeId.rows[i].cells[3].innerHTML.toLowerCase();
-            if (searchText1.match(key) || searchText2.match(key) || searchText3.match(key) || searchText4.match(key)) {
+           
+            if (searchText1.match(key) || searchText2.match(key)) {
                 storeId.rows[i].style.display = '';
             } else {
                 storeId.rows[i].style.display = 'none';
